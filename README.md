@@ -163,6 +163,4 @@ nova-trade-pipeline/
 
 ## Sample Documents
 
-Place trade document PDFs or images in `backend/uploads/` or any path — the UI uploads them directly.
-
-For testing without real documents, a scanned commercial invoice or Bill of Lading image works well. The extraction confidence scores will vary based on document quality.
+Trade document PDFs or images must be manually uploaded via the UI. For testing without real documents, a scanned commercial invoice or Bill of Lading image works well. The extraction confidence scores will vary based on document quality.
