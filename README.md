@@ -164,3 +164,11 @@ nova-trade-pipeline/
 ## Sample Documents
 
 Trade document PDFs or images must be manually uploaded via the UI. For testing without real documents, a scanned commercial invoice or Bill of Lading image works well. The extraction confidence scores will vary based on document quality.
+
+### Sample Files
+
+The `sample_docs/` directory contains pre-built sample documents for testing:
+- **Approved Bill of Lading** — for 2 companies
+- **Amended Bill of Lading** — for 2 companies
+
+Use these files to test the pipeline without creating new documents.
