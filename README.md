@@ -54,30 +54,30 @@ pytest -v
 
 ## Architecture
 
-```
-POST /jobs  →  FastAPI saves file + creates job  →  LangGraph pipeline (background)
-                                                         │
-                                              ┌──────────▼──────────┐
-                                              │   Extractor Node     │  GPT-4o vision
-                                              │  (faithful perception)│  tool-call → ExtractionResult
-                                              └──────────┬──────────┘
-                                                         │
-                                           avg_confidence < 0.60?
-                                                  │              │
-                                             escalate        continue
-                                           (review, skip     │
-                                            validator)  ┌────▼──────────┐
-                                                         │ Validator Node │  GPT-4o (fuzzy only)
-                                                         │  (verifier)    │  deterministic Python
-                                                         └────┬──────────┘
-                                                              │
-                                                    ┌─────────▼────────┐
-                                                    │   Router Node     │  GPT-4o function-call
-                                                    │   (planner)       │  → approve/review/amend
-                                                    └─────────┬────────┘
-                                                              │
-                                                    SQLite  jobs  table
-                                                    (polled by React UI)
+```mermaid
+flowchart TD
+    A["POST /jobs\nFastAPI — save file, create job record\nlaunch background task"] --> B
+
+    B["Extractor Node\nstatus → 'extracting'\n─────────────────────\n• PDF/image → base64 pages via PyMuPDF\n• GPT-4o vision + strict tool schema\n  extract_trade_document_fields\n• 8 fields: consignee, hs_code, ports,\n  incoterms, goods, weight, invoice_no\n• Per-field: value · confidence · source_region\n• Computes avg_confidence\n─────────────────────\nOn error → status 'failed' → END"]
+
+    B --> C{avg_confidence\n< 0.60?}
+
+    C -- "yes\n(low quality doc)" --> D["Low Confidence Escalate Node\n─────────────────────\ndecision = 'review'\nreasoning = confidence score + threshold\nno Validator run\n─────────────────────\nstatus → 'complete'"]
+    D --> END1([END])
+
+    C -- "no\n(sufficient quality)" --> E["Validator Node\nstatus → 'validating'\n─────────────────────\nDeterministic Python (exact / regex match):\n  • field not found → mismatch\n  • exact match → match\n  • regex match → match\n  • confidence < 0.85 → uncertain\nLLM only for fuzzy match:\n  • entity name variants, abbreviations,\n    OCR artefacts → GPT-4o\n─────────────────────\nOutputs: FieldVerdict per field\n(match / mismatch / uncertain)\n─────────────────────\nOn error → status 'failed' → END"]
+
+    E --> F{Error?}
+    F -- yes --> END2([END — failed])
+    F -- no --> G["Router Node\nstatus → 'routing'\n─────────────────────\nGPT-4o function-call\n  make_routing_decision\n─────────────────────\nHard rules:\n  APPROVE  — all verdicts match,\n             has_uncertain=false,\n             mismatch_count=0\n  REVIEW   — uncertain fields,\n             mismatch_count=0\n  AMEND    — mismatch_count > 0\n             → draft amendment email\n─────────────────────\nOn error → status 'failed' → END"]
+
+    G --> H["SQLite jobs table\nstatus → 'complete'\nextraction + validation + decision stored\n─────────────────────\nPolled every 2 s by React UI"]
+    H --> END3([END])
+
+    style D fill:#f5a623,color:#000
+    style END1 fill:#f5a623,color:#000
+    style END2 fill:#e74c3c,color:#fff
+    style H fill:#2ecc71,color:#000
 ```
 
 ## Agent Responsibilities
