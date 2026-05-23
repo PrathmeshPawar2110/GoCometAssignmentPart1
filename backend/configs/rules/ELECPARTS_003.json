@@ -1,0 +1,70 @@
+{
+  "customer_id": "ELECPARTS_003",
+  "customer_name": "TechParts Global India Pvt Ltd",
+  "rules": {
+    "consignee_name": {
+      "expected_value": null,
+      "allowed_values": ["TechParts Global India Pvt Ltd", "TechParts Global India Private Limited", "TECHPARTS GLOBAL INDIA PVT LTD"],
+      "match_type": "fuzzy",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "hs_code": {
+      "expected_value": null,
+      "allowed_values": ["8541.10", "8541.21", "8541.29", "8542.31", "8542.39"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "port_of_loading": {
+      "expected_value": null,
+      "allowed_values": ["CNSZX", "TWKHH", "JPOSA"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "soft",
+      "required": false
+    },
+    "port_of_discharge": {
+      "expected_value": "INMAA",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "incoterms": {
+      "expected_value": "DAP",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "invoice_number": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^TP-\\d{4,8}$",
+      "severity": "soft",
+      "required": true
+    },
+    "gross_weight": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^\\d+(\\.\\d+)?\\s*(KG|MT|LBS|kg|mt|lbs)?$",
+      "severity": "soft",
+      "required": true
+    },
+    "description_goods": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": ".+",
+      "severity": "soft",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "customer_id": "TEXTILES_002",
+  "customer_name": "Sunrise Textiles Pvt Ltd",
+  "rules": {
+    "consignee_name": {
+      "expected_value": null,
+      "allowed_values": ["Sunrise Textiles Pvt Ltd", "Sunrise Textiles Private Limited", "SUNRISE TEXTILES PVT LTD"],
+      "match_type": "fuzzy",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "hs_code": {
+      "expected_value": null,
+      "allowed_values": ["5208.11", "5208.12", "5208.19", "5209.11", "5209.12", "5209.19"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "port_of_loading": {
+      "expected_value": null,
+      "allowed_values": ["CNNGB", "CNSHA", "CNSZX"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "soft",
+      "required": false
+    },
+    "port_of_discharge": {
+      "expected_value": "INBOM",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "incoterms": {
+      "expected_value": "FOB",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "invoice_number": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^ST-\\d{6}$",
+      "severity": "soft",
+      "required": true
+    },
+    "gross_weight": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^\\d+(\\.\\d+)?\\s*(KG|MT|LBS|kg|mt|lbs)?$",
+      "severity": "soft",
+      "required": true
+    },
+    "description_goods": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": ".+",
+      "severity": "soft",
+      "required": true
+    }
+  }
+}

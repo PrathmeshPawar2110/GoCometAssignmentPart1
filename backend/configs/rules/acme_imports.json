@@ -1,0 +1,70 @@
+{
+  "customer_id": "ACME_001",
+  "customer_name": "Acme Imports Pvt Ltd",
+  "rules": {
+    "consignee_name": {
+      "expected_value": null,
+      "allowed_values": ["Acme Imports Pvt Ltd", "Acme Imports Private Limited", "ACME IMPORTS PVT LTD"],
+      "match_type": "fuzzy",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "hs_code": {
+      "expected_value": null,
+      "allowed_values": ["8471.30", "8471.41", "8471.49"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "port_of_loading": {
+      "expected_value": null,
+      "allowed_values": ["CNSHA", "CNNBO", "CNSZX"],
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "soft",
+      "required": false
+    },
+    "port_of_discharge": {
+      "expected_value": "INNSA",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "hard",
+      "required": true
+    },
+    "incoterms": {
+      "expected_value": "CIF",
+      "allowed_values": null,
+      "match_type": "exact",
+      "pattern": null,
+      "severity": "soft",
+      "required": true
+    },
+    "invoice_number": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^[A-Z]{2,4}-\\d{4,8}$",
+      "severity": "soft",
+      "required": true
+    },
+    "gross_weight": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": "^\\d+(\\.\\d+)?\\s*(KG|MT|LBS|kg|mt|lbs)?$",
+      "severity": "soft",
+      "required": true
+    },
+    "description_goods": {
+      "expected_value": null,
+      "allowed_values": null,
+      "match_type": "format_regex",
+      "pattern": ".+",
+      "severity": "soft",
+      "required": false
+    }
+  }
+}
